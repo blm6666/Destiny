@@ -31,6 +31,7 @@ export function Hero() {
             height={280}
             className="rounded-2xl shadow-xl object-cover w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72"
             priority
+            unoptimized
           />
         </motion.div>
         <div className="text-center md:text-left max-w-3xl">
