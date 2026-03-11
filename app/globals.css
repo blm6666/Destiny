@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --violet-deep: #2d1b69;
+  --violet-dark: #1a1025;
+  --gold-soft: #d4a574;
+  --rose: #c77dba;
+  --cream: #fff8f0;
+}
+
+body {
+  @apply bg-cream text-violet-dark antialiased;
+}
