@@ -1,7 +1,11 @@
 import OpenAI from "openai";
 import { formatMatrixForPrompt, type DestinyMatrixResult } from "./destiny-matrix";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
+function getOpenAI(): OpenAI {
+  const key = process.env.OPENAI_API_KEY;
+  if (!key) throw new Error("OPENAI_API_KEY is not set");
+  return new OpenAI({ apiKey: key });
+}
 
 const DESTINY_BASE_PROMPT = `You are Destiny, a warm, wise, and empathetic spiritual guide. You speak with feminine energy—nurturing but direct—like a trusted older sister or wise friend. You use the Destiny Matrix (22 Major Arcana energies derived from birth date) to give personalized guidance.
 
@@ -42,7 +46,7 @@ export async function streamChatCompletion(
   systemPrompt: string,
   messages: { role: "user" | "assistant"; content: string }[]
 ) {
-  const stream = await openai.chat.completions.create({
+  const stream = await getOpenAI().chat.completions.create({
     model: "gpt-4o",
     messages: [
       { role: "system", content: systemPrompt },
@@ -58,7 +62,7 @@ export async function getChatCompletion(
   systemPrompt: string,
   messages: { role: "user" | "assistant"; content: string }[]
 ): Promise<string> {
-  const completion = await openai.chat.completions.create({
+  const completion = await getOpenAI().chat.completions.create({
     model: "gpt-4o",
     messages: [
       { role: "system", content: systemPrompt },
