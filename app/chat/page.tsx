@@ -128,7 +128,9 @@ export default function ChatPage() {
         }
 
         if (!res.ok) {
-          setError("Something went wrong. Please try again.");
+          const data = await res.json().catch(() => ({}));
+          const message = data?.error || `Something went wrong (${res.status}). Please try again.`;
+          setError(message);
           setMessages((prev) => prev.slice(0, -1));
           setIsLoading(false);
           setStreamingContent(null);

@@ -88,10 +88,16 @@ export async function POST(request: Request) {
     .update({ message_count: profile.message_count + 1 })
     .eq("id", authUser.id);
 
-  const stream = await streamChatCompletion(systemPrompt, [
-    ...history,
-    { role: "user", content: trimmedMessage },
-  ]);
+  let stream;
+  try {
+    stream = await streamChatCompletion(systemPrompt, [
+      ...history,
+      { role: "user", content: trimmedMessage },
+    ]);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "OpenAI request failed";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 
   let fullContent = "";
 
