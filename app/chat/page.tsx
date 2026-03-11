@@ -7,6 +7,13 @@ import { ChatWindow, type Message } from "@/components/chat/ChatWindow";
 
 const PAYWALL_AT = 10;
 
+const WELCOME_MESSAGE: Message = {
+  id: "welcome",
+  role: "assistant",
+  content:
+    "Hello, I'm Destiny—your personal matrix guide. I'm here to map your energies and support you through life, relationships, and purpose.\n\nTo begin, what should I call you?",
+};
+
 function parseDateOfBirth(text: string): string | null {
   const trimmed = text.trim();
   const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(trimmed);
@@ -41,13 +48,6 @@ export default function ChatPage() {
   const [messageCount, setMessageCount] = useState(0);
   const [hasMatrix, setHasMatrix] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const WELCOME_MESSAGE: Message = {
-    id: "welcome",
-    role: "assistant",
-    content:
-      "Hello, I'm Destiny—your personal matrix guide. I'm here to map your energies and support you through life, relationships, and purpose.\n\nTo begin, what should I call you?",
-  };
 
   const loadMessages = useCallback(async () => {
     const res = await fetch("/api/messages");
@@ -165,7 +165,7 @@ export default function ChatPage() {
         setStreamingContent(null);
       }
     },
-    [hasMatrix, loadMessages, loadProfile]
+    [hasMatrix, loadProfile]
   );
 
 
